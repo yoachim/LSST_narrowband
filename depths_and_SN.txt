@@ -1,0 +1,43 @@
+u {'Median': 25.593438315651625}
+night < 365 and u {'Median': 24.365340114252273}
+g {'Median': 27.058813369707448}
+night < 365 and g {'Median': 25.639700838035967}
+r {'Median': 27.136312824636949}
+night < 365 and r {'Median': 25.669267217721274}
+i {'Median': 26.571196315062267}
+night < 365 and i {'Median': 25.050434347580147}
+z {'Median': 25.653425773525129}
+night < 365 and z {'Median': 24.664526545127892}
+y {'Median': 24.856152336639905}
+night < 365 and y {'Median': 23.868665160562912}
+
+
+# To get the signal to noise of a star
+def m52snr(m, m5):
+    """
+    Calculate the SNR for a star of magnitude m in an
+    observation with 5-sigma limiting magnitude depth m5.
+    Assumes gaussian distribution of photons and might not be
+    strictly due in bluer filters. See table 2 and equation 5
+    in astroph/0805.2366.
+
+    Parameters
+    ----------
+    m : float or numpy.ndarray
+        The magnitude of the star
+    m5 : float or numpy.ndarray
+        The m5 limiting magnitude of the observation
+
+    Returns
+    -------
+    float or numpy.ndarray
+        The SNR
+    """
+    snr = 5.*10.**(-0.4*(m-m5))
+    return snr
+
+
+def mag_error(m, snr):
+    # https://www.eso.org/~ohainaut/ccd/sn.html
+    dmag = 2.5*np.log10(1.+1./snr)
+    return dmag
